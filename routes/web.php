@@ -16,4 +16,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::post('/zzz', 'TlgUpdateController@tst');
+Route::post('/zzz', 'TlgUpdateController@all');

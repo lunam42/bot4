@@ -1,20 +1,40 @@
 <?php
 
-	namespace App;
+namespace App;
 
-	use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
-	class Client extends Model
+class Client extends Model
+{
+	protected $fillable = ['tlg_id', 'nick', 'lang'];
+	public $primaryKey = 'tlg_id';
+	public $incrementing = false;
+	public $tlg_id;
+	public $nick;
+	public $lang;
+
+	public function countMessages()
+	// считаем все сообщенния клиента
 	{
-		protected $guarded = [];
-		protected $primaryKey = 'client_id';
-		public $incrementing = false;
-		public $client_id;
-		public $client_nick;
-		public $client_lang;
-
-		public function countMessages()
-		{
-			return $this->hasMany('App\Message', 'owner_id', 'client_id');
-		}
+		return $this->hasMany('App\Message', 'sender', 'tlg_id')->count();
 	}
+
+	public function whenLastMessage()
+	// получаем дату последнего сообщения клиента
+	{
+		return $this->hasMany('App\Message', 'sender', 'tlg_id')->max('created_at');
+	}
+
+	public function lastN(int $n)
+	// n последних сообщений
+	{
+		$res = '';
+		$msgs = $this->hasMany('App\Message', 'sender', 'tlg_id')->orderBy('created_at', 'desc')->take($n)->get();
+		foreach ($msgs as $msg)
+		{
+			$msg->toArray();
+			$res = $res.' "'.$msg['txt'].'"';
+		}
+		return $res;
+	}
+}

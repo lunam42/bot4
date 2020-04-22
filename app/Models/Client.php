@@ -9,24 +9,24 @@ class Client extends Model
 	protected $fillable = ['tlg_id', 'nick', 'lang'];
 	public $primaryKey = 'tlg_id';
 	public $incrementing = false;
-	public $tlg_id;
-	public $nick;
-	public $lang;
+	public $Tlg_id;
+	public $Nick;
+	public $Lang;
 
-	public function countMessages()
-	// считаем все сообщенния клиента
+	public function countMessages(): int
+	// get count of all client's messages
 	{
 		return $this->hasMany('App\Message', 'sender', 'tlg_id')->count();
 	}
 
-	public function whenLastMessage()
-	// получаем дату последнего сообщения клиента
+	public function whenLastMessage(): string
+	// get last date of message from this client
 	{
 		return $this->hasMany('App\Message', 'sender', 'tlg_id')->max('created_at');
 	}
 
-	public function lastN(int $n)
-	// n последних сообщений
+	public function lastN(int $n): int 
+	// get last n texts of messages
 	{
 		$res = '';
 		$msgs = $this->hasMany('App\Message', 'sender', 'tlg_id')->orderBy('created_at', 'desc')->take($n)->get();

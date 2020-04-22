@@ -2,12 +2,12 @@
 	namespace App\Http\Controllers;
 	use App\Http\Controllers\Controller;
 	use Illuminate\Http\Request;
-	use App\Client;
-	use App\Message;
-	use App\Answer;
-	use App\AnswerStart;
-	use App\AnswerLast;
-	use App\AnswerDiv;
+	use App\Models\Client;
+	use App\Models\Message;
+	use App\Models\Answer;
+	use App\Models\AnswerStart;
+	use App\Models\AnswerLast;
+	use App\Models\AnswerDiv;
 	
 	class TlgUpdateController extends Controller
 	{
@@ -22,7 +22,7 @@
 		private function storeClient(Request $request): Client
 		// update/create new record in db and new instance of Client, fill its properties with data from request 
 		{
-			$Client = \App\Client::updateOrCreate(
+			$Client = \App\Models\Client::updateOrCreate(
 		    ['tlg_id' => $request->input('message.from.id')],
 		    ['nick' => $request->input('message.from.username'), 'lang' => $request->input('message.from.language_code')]
 			);

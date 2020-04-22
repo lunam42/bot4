@@ -11,7 +11,7 @@ abstract class Answer extends Model
     private $Alert;
     
     abstract public function makeUrl();
-    
+  /*  
     public function send ($url)
     {
         $ch = curl_init($url);
@@ -23,7 +23,7 @@ abstract class Answer extends Model
             return null;
         return $response;
     }
-		
+		*/
     public function getChatId(): int
     {
     	return $this->Chat_id;
